@@ -7,7 +7,20 @@ import { SearchContext } from "../../context/SearchContext";
 
 const Reserve = ({ setOpen, hotelId }) => {
   const { data, loading, error, reFetch } = useFetch(`/hotels/room/${hotelId}`);
+  const { dates } = useContext(SearchContext);
+  const getDatesInRange = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const date = new Date(start.getTime());
+    const dates = [];
 
+    while (date <= end) {
+      dates.push(new Date(date).getTime());
+      date.setDate(date.getDate() + 1);
+    }
+    return dates;
+  };
+  console.log(getDatesInRange(dates[0].startDate, dates[0].endDate));
   const [selectedRooms, setSelectedRooms] = useState([]);
   const handleSelect = (e) => {
     const checked = e.target.checked;
