@@ -21,6 +21,7 @@ export const register = async (req, res, next) => {
   }
 };
 export const login = async (req, res, next) => {
+  console.log(req.body.username[0]);
   try {
     const user = await User.findOne({ username: req.body.username });
     if (!user) return next(createError(404, "User not found!"));
@@ -44,7 +45,7 @@ export const login = async (req, res, next) => {
         httpOnly: true,
       })
       .status(200)
-      .json({ ...otherdetails });
+      .json({ details: { ...otherdetails }, isAdmin });
   } catch (err) {
     next(err);
   }
